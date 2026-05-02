@@ -234,3 +234,29 @@ body {
   0%   { transform: scale(0.9); opacity: 0.8; }
   100% { transform: scale(1.4); opacity: 0; }
 }
+
+/* ── Slime character ── */
+@keyframes slime-float {
+  0%, 100% { transform: translateY(0)   scaleX(1)    scaleY(1); }
+  30%       { transform: translateY(-7px) scaleX(1.05) scaleY(0.95); }
+  60%       { transform: translateY(-4px) scaleX(1.02) scaleY(0.98); }
+}
+@keyframes slime-shadow {
+  0%, 100% { transform: translateX(-50%) scaleX(1);    opacity: 0.18; }
+  30%       { transform: translateX(-50%) scaleX(0.82); opacity: 0.1;  }
+}
+@keyframes slime-glow {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.1); }
+}
+.slime-body:hover {
+  animation: slime-wiggle 0.4s ease-in-out !important;
+}
+@keyframes slime-wiggle {
+  0%   { transform: rotate(0deg)   scaleX(1)    scaleY(1); }
+  20%  { transform: rotate(-6deg)  scaleX(1.08) scaleY(0.93); }
+  40%  { transform: rotate(6deg)   scaleX(0.93) scaleY(1.07); }
+  60%  { transform: rotate(-3deg)  scaleX(1.04) scaleY(0.96); }
+  80%  { transform: rotate(2deg)   scaleX(0.98) scaleY(1.02); }
+  100% { transform: rotate(0deg)   scaleX(1)    scaleY(1); }
+}

@@ -68,9 +68,11 @@ export default function RadioScreen({ userId, profile, weather, missions, onNavi
   const [loadingMissions, setLoadingMissions] = useState(true);
   const [activeMission,   setActiveMission]   = useState(null);
   const [completedIds,    setCompletedIds]    = useState(new Set());
+  const selectedPrefs = getActivityPrefs(userId) || [];
+  const expectedMissionCount = Math.max(1, selectedPrefs.length || 3);
 
   const isActive = phase !== 'idle' && phase !== 'done';
-  const isExploringNearby = loadingMissions || suggestions.length < 3;
+  const isExploringNearby = loadingMissions && suggestions.length < expectedMissionCount;
   const hour     = new Date().getHours();
   const greeting = hour < 12 ? 'Morning' : hour < 17 ? 'Afternoon' : 'Evening';
   const dayName  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
@@ -116,7 +118,7 @@ export default function RadioScreen({ userId, profile, weather, missions, onNavi
     // Fallback: fetch live
     setLoadingMissions(true);
     const w     = LS.get('weather');
-    const prefs = getActivityPrefs(userId) || [];
+    const prefs = selectedPrefs;
 
     const results = await fetchMissionSuggestions({
       lat:          w?.lat,

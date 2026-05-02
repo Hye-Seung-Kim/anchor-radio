@@ -143,12 +143,18 @@ export function useAppState() {
     setLoading(true);
     setError(null);
     try {
-      const { user } = await signUp(email, password);
-      if (user) {
-        setUserId(user.id);
-        setProfileS(p => ({ ...p, name: name || '' }));
-        navigate('s1');
+      const { user, session } = await signUp(email, password);
+      if (!user) throw new Error('Sign up failed. Please try again.');
+
+      // Supabase email confirmation is ON → session is null until confirmed
+      if (!session) {
+        setError('✉️ Check your email and click the confirmation link, then sign in.');
+        return;
       }
+
+      setUserId(user.id);
+      setProfileS(p => ({ ...p, name: name || '' }));
+      navigate('s1');
     } catch (e) {
       setError(e.message || 'Sign up failed.');
     } finally {
